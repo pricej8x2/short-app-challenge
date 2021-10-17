@@ -13,6 +13,11 @@ module ShortTest
 
     config.active_job.queue_adapter = :resque
 
+    # Add lib to LOAD_PATHS
+    LOAD_PATHS = %W[
+      #{config.root}/lib
+    ].freeze
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
