@@ -1,0 +1,8 @@
+# Ignore files
+.byebug_history
+.DS_Store
+
+# Ignore folders
+log/
+tmp/
+vendor/bundle/
