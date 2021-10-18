@@ -18,6 +18,10 @@ module ShortTest
       #{config.root}/lib
     ].freeze
 
+    # Add paths to autoload
+    config.autoload_paths += LOAD_PATHS
+    config.eager_load_paths += LOAD_PATHS
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
