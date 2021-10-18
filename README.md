@@ -56,11 +56,11 @@ Encoding and decoding methods were implemented to convert between integers and s
 
 ## Encoding
 
-1. The encoding method is processed when a valid request is made to the POST / endpoint. The ID of the associated ShortUrl object is passed as input to the encoding method (which as stated before will always be a positive integer).
+The encoding method is processed when a valid request is made to the POST / endpoint. The ID of the associated ShortUrl object is passed as input to the encoding method (which as stated before will always be a positive integer). The following steps describe how this works.
 
-2. A string variable is assigned a value of an empty string which is used for constructing and storing the short code.
+1. A string variable is assigned a value of an empty string which is used for constructing and storing the short code.
 
-3. A loop starts and evaluates whether the num is positive. If it is positive, then the following sub-steps occur.
+2. A loop starts and evaluates whether the num is positive. If it is positive, then the following sub-steps occur.
 
     1. The remainder of the division between num and 62 (base62) is returned.
 
@@ -72,17 +72,17 @@ Encoding and decoding methods were implemented to convert between integers and s
 
     5. The loop repeats. The loop will end once num is 0 which means that it can no longer be divided.
 
-4. The string short code is returned.
+3. The string short code is returned.
 
 NOTE: The POST / endpoint returns this string to the user in the response.
 
 ## Decoding
 
-1. The decoding method is processed when a valid request is made to the GET /:id endpoint. The short code that the user passes is processed as input to the decoding method.
+The decoding method is processed when a valid request is made to the GET /:id endpoint. The short code that the user passes is processed as input to the decoding method. The following steps describe how this works.
 
-2. The num variable is assigned a value of 0.
+1. The num variable is assigned a value of 0.
 
-3. A loop starts and passes each character (left-to-right) iteratively to the block for processing.
+2. A loop starts and passes each character (left-to-right) iteratively to the block for processing.
 
     1. num is multipled by 62 (base62).
 
@@ -94,7 +94,7 @@ NOTE: The POST / endpoint returns this string to the user in the response.
 
     5. The loop continues if another character exists within str.
 
-4. After all characters have been processed, num is returned.
+3. After all characters have been processed, num is returned.
 
 NOTE: This num is used to query for a record within the short_urls table in the database. If found, the record's click_count gets updated and the user is redirected to the full URL associated with the record.
 
