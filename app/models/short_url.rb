@@ -55,7 +55,13 @@ class ShortUrl < ApplicationRecord
     ShortUrl.encode_num_to_short_code(id)
   end
 
+  # Updates the title attribute of a ShortUrl object.
+  #
+  # Returns a String title or nil if the ID is blank.
   def update_title!
+    return if id.blank?
+
+    reload.title
   end
 
   # Validates the short code contains only valid characters from
