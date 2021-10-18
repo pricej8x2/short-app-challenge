@@ -23,4 +23,16 @@ class ApplicationController < ActionController::Base
     Rails.logger.error error
     render json: { status: status, message: error.message }, status: status
   end
+
+  # Sends a non-error response.
+  #
+  # object - The object to use in the response body or use for redirection.
+  # status - The Symbol representing the HTTP status code to send with the response.
+  def return_response(object, status)
+    if status == :moved_permanently
+      redirect_to object.full_url, status: status
+    else
+      render json: object, status: status
+    end
+  end
 end
