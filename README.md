@@ -35,7 +35,7 @@
 
 A short code is a sequence of characters that map **exactly** one-to-one with an ID of a record in a table within the database. From an API viewpoint, a user that provides a given short code can be redirected to the full URL stored within the record identified by the ID that the short code maps to. For this project, short codes are represented in base62 with the set of characters that includes the following: 0-9, a-z, and A-Z. As can be seen in the table below, the expanded character set of short codes allow for bigger numbers to be represented with less characters relative to the integer ID equivalent. This is important, because a user will provide a short code in a request to the web server instead of an ID which helps shorten the length of the URL in the request.
 
-* NOTE: For this project, 0 was omitted due to the fact that tables in MariaDB can not be re-configured to start at a value below 1.
+* NOTE: For this project, 0 was omitted due to the fact that tables in MariaDB cannot be re-configured to start at a value below 1.
 
 | Integer (base10) | Short Code (base62) |
 | :--------------: | :-----------------: |
@@ -68,7 +68,7 @@ The encoding method is processed when a valid request is made to the POST / endp
 
     3. The character is prepended to the string variable.
 
-    4. num is divided by 62 (base62) and the output of that expression is used to re-reassign num.
+    4. num is divided by 62 (base62) and the output of that expression is used to re-assign num.
 
     5. The loop repeats. The loop will end once num is 0 which means that it can no longer be divided.
 
@@ -84,7 +84,7 @@ The decoding method is processed when a valid request is made to the GET /:id en
 
 2. A loop starts and passes each character (left-to-right) iteratively to the block for processing.
 
-    1. num is multipled by 62 (base62).
+    1. num is multiplied by 62 (base62).
 
     2. The index of a character is found within the CHARACTERS array.
 
@@ -100,12 +100,12 @@ NOTE: This num is used to query for a record within the short_urls table in the 
 
 # Considerations
 
-* It could be beneficial to create a descending index on the click_count column to improve performance for when the user attempts to retrieve the top 100 most frequently accessed short codes. This would depend on the frequency of updates to click_count versus the frequency of the requests to the top 100 most frequencly accessed short codes endpoint as well as the number of rows already within the table.
+* It could be beneficial to create a descending index on the click_count column to improve performance for when the user attempts to retrieve the top 100 most frequently accessed short codes. This would depend on the frequency of updates to click_count versus the frequency of the requests to the top 100 most frequently accessed short codes endpoint as well as the number of rows already within the table.
 
 * If implemented correctly, a caching implementation would improve response times from the index endpoint as well.
 
 # Comments
 
-* The 'has a list of the top 100 urls' spec test contained a reference to 'urls' and the challenge notes suggested that the index route should return the top 100 most frequently accessed short codes. As a result, I adhered to the challenge despite this discrepency.
+* The 'has a list of the top 100 urls' spec test contained a reference to 'urls' and the challenge notes suggested that the index route should return the top 100 most frequently accessed short codes. As a result, I adhered to the challenge despite this discrepancy.
 
 * I did some research and identified that a :moved_permanently status is what popular URL shorteners like bit.ly return for the redirection HTTP status code.
