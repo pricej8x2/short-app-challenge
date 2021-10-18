@@ -20,13 +20,14 @@ class ShortUrl < ApplicationRecord
   end
 
   # Encodes an Integer in base10 to a String short code in base62.
+  # NOTE: Tables in MariaDB can not be re-configured to start at a value
+  # below 1. Therefore, it is unnecessary for this method to return the
+  # String '0' when num is equal to the Integer 0.
   #
   # num - An Integer in base10.
   #
   # Returns a String short code in base62.
-  def self.encode_num_to_short_code(num)
-    return '0' if num.zero?
-
+  def encode_num_to_short_code(num)
     string = ''
     while num.positive?
       string << CHARACTERS[num.modulo(BASE)]
@@ -52,7 +53,7 @@ class ShortUrl < ApplicationRecord
   def short_code
     return if id.blank?
 
-    ShortUrl.encode_num_to_short_code(id)
+    encode_num_to_short_code(id)
   end
 
   # Updates the title attribute of a ShortUrl object.
