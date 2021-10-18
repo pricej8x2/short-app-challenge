@@ -5,6 +5,7 @@ class ShortUrl < ApplicationRecord
   validates :full_url, presence: true
   validates :full_url, length: { maximum: 2048 }, on: :create
   validate :validate_full_url, on: :create
+  after_create { UpdateTitleJob.perform_later(id) }
 
   # Encodes an Integer in base10 to a String short code in base62.
   #
