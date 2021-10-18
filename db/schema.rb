@@ -10,15 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_23_133432) do
+ActiveRecord::Schema.define(version: 2021_10_17_233632) do
 
   create_table "short_urls", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
-    t.string "full_url"
+    t.string "full_url", limit: 2048, null: false
     t.string "title"
     t.integer "click_count", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["full_url"], name: "index_short_urls_on_full_url"
   end
 
 end
