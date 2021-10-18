@@ -10,3 +10,15 @@ class ShortenerServiceError < StandardError
     @status = status
   end
 end
+
+class ShortenerServiceError::BadRequest < ShortenerServiceError
+  def initialize(message)
+    super(message, :bad_request)
+  end
+end
+
+class ShortenerServiceError::BadRequest::InvalidShortCode < ShortenerServiceError
+  def initialize(message)
+    super(message, :bad_request)
+  end
+end

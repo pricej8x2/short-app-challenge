@@ -17,7 +17,15 @@ class ShortUrlsController < ApplicationController
     return_response({ short_code: short_url.short_code }, :created)
   end
 
+  # Retrieves a ShortUrl object by short code and redirects the requester to the full URL.
+  # This endpoint increments the ShortUrl's click_count attribute by 1.
+  #
+  # Redirects the requester to the full URL associated with the ShortUrl object.
   def show
+    ShortUrl.validate_short_code(params[:id])
+    short_url = ShortUrl.find_by_short_code(params[:id])
+    short_url.update!(click_count: short_url.click_count + 1)
+    return_response(short_url, :moved_permanently)
   end
 
   private

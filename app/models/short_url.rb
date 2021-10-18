@@ -1,3 +1,4 @@
+# The ShortUrl model.
 class ShortUrl < ApplicationRecord
   CHARACTERS = [*'0'..'9', *'a'..'z', *'A'..'Z'].freeze
   BASE = CHARACTERS.length
@@ -6,6 +7,17 @@ class ShortUrl < ApplicationRecord
   validates :full_url, length: { maximum: 2048 }, on: :create
   validate :validate_full_url, on: :create
   after_create { UpdateTitleJob.perform_later(id) }
+
+  # Decodes a String short code in base62 to an Integer in base10.
+  #
+  # str - A String short code in base62.
+  #
+  # Returns an Integer in base10.
+  def self.decode_short_code_to_num(str)
+    num = 0
+    str.each_char { |char| num = num * BASE + CHARACTERS.index(char) }
+    num
+  end
 
   # Encodes an Integer in base10 to a String short code in base62.
   #
@@ -23,6 +35,17 @@ class ShortUrl < ApplicationRecord
     string.reverse
   end
 
+  # Decodes the passed short code into an Integer ID, queries for a ShortUrl object by the generated ID, and
+  # returns a ShortUrl object if it exists.
+  #
+  # short_code - A String short code to decode.
+  #
+  # Returns a ShortUrl object.
+  def self.find_by_short_code(short_code)
+    id = decode_short_code_to_num(short_code)
+    find_by!(id: id)
+  end
+
   # Generates a String short code from an Integer ID.
   #
   # Returns a String short code or nil if the ID is blank.
@@ -33,6 +56,19 @@ class ShortUrl < ApplicationRecord
   end
 
   def update_title!
+  end
+
+  # Validates the short code contains only valid characters from
+  # the set of base62 characters.
+  #
+  # short_code - The String short code.
+  #
+  # Returns nil if valid.
+  def self.validate_short_code(short_code)
+    return if short_code.count("^#{CHARACTERS.join}").zero?
+
+    message = "The short code '#{short_code}' is not valid."
+    raise ShortenerServiceError::BadRequest::InvalidShortCode, message
   end
 
   private
