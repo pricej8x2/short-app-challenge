@@ -30,10 +30,10 @@ class ShortUrl < ApplicationRecord
   def encode_num_to_short_code(num)
     string = ''
     while num.positive?
-      string << CHARACTERS[num.modulo(BASE)]
+      string.prepend(CHARACTERS[num.modulo(BASE)])
       num /= BASE
     end
-    string.reverse
+    string
   end
 
   # Decodes the passed short code into an Integer ID, queries for a ShortUrl object by the generated ID, and
